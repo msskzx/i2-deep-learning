@@ -1,4 +1,15 @@
-# i2dl-assignments
- Introduction to Deep Learning
+# Introduction to Deep Learning
 
- Assignment 1
+## Data
+- Dataloader
+- Visualization
+- Preprocessing
+- Normalization
+
+## Loss
+- Binary Cross Entropy Loss
+
+## Neural Networks
+- Backpropagation
+- Optimizer and Gradient Descent
+- Solver
