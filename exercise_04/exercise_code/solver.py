@@ -104,8 +104,9 @@ class Solver(object):
         ########################################################################
 
         forward_pass = model.forward(X_train)
-        _, loss = loss_func(forward_pass, y_train)
-        backward_pass = model.backward(loss)
+        loss_forward = loss_func(forward_pass, y_train)
+        loss_grad = loss_func.backward(forward_pass, y_train)
+        backward_pass = model.backward(loss_grad)
         opt.step(backward_pass)
 
         ########################################################################

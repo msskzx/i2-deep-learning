@@ -59,14 +59,14 @@ class Classifier(Network):
         ########################################################################
 
         y = X.dot(self.W)
-        y = self.sigmoid(y)
-        self.cache = (X, y)
+        z = self.sigmoid(y)
+        self.cache = (X, z)
 
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
 
-        return y 
+        return z
 
     def backward(self, dout):
         """
@@ -95,10 +95,9 @@ class Classifier(Network):
         # x, and could be calculated with the result from the forward pass.    #
         ########################################################################
 
-        X, y = self.cache
-        #z = self.sigmoid(y)
-        dz_dy = y * (1 - y)
-        dl_dy = dz_dy * dz_dy
+        X, z = self.cache
+        dz_dy = z * (1 - z)
+        dl_dy = dout * dz_dy
         dW = X.T.dot(dl_dy)
 
         ########################################################################
