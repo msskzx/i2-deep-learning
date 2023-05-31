@@ -39,13 +39,22 @@ Categorizing houses into ```low-priced``` or ```expensive``` using simple logist
 ---
 
 ## Neural Network and CIFAR10 Classification
+### Modularization
+Using the chain rule the model could be split into layers by using a `forward` and `backward` pass. The forward and backward passes are define according to the function of each layer as explained in the following sections.
+
 ### Sigmoid
+- `forward`: given an input `X` of any shape, calculate the `Sigmoid` function for it and cache the input. Afterwards, return the `output` and `cache`.
+- `backward`: given `upstream gradient dout` and `cache`, calculate `gradient w.r.t X`
 
 ### ReLU
+- `forward`: given an input `X` of any shape, calculate the `ReLU` function for it and cache the output. Afterwards, return the `output` and `cache`.
+- `backward`: given `upstream gradient dout` and `cache`, calculate `gradient w.r.t X`
 
 ### Affine Layers
-
+- `forward`: given `x`, `w`, `b`, calculate the affine output and cache inputs. Return `output` and `cache`.
+- `backward`: given `upstream gradient dout` and `cache`, calculate and return `dx`, `dw`, `db`.
 ### N-Layer Classification Network
+- `forward`: given input data `X` containing `N` minibatches, calculate `affine forward`, `activation forward`. Return predicted value.
 
 ### Cross-Entropy/Softmax Loss from Logits
 
