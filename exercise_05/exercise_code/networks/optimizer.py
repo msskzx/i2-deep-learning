@@ -123,8 +123,7 @@ class SGDMomentum(object):
         # value in the next_w variable. You should also use and update the     #
         # velocity v.                                                          #
         ########################################################################
-        config.setdefault('beta', 0.9)
-        beta = config['beta']
+        beta = config['momentum']
         v = v * beta - lr * dw
         next_w = w + v
         ########################################################################

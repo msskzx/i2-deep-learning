@@ -40,7 +40,7 @@ Categorizing houses into ```low-priced``` or ```expensive``` using simple logist
 
 ## Neural Network and CIFAR10 Classification
 ### Modularization
-Using the chain rule the model could be split into layers by using a `forward` and `backward` pass. The forward and backward passes are define according to the function of each layer as explained in the following sections.
+Using the chain rule, the model could be split into layers by using a `forward` and `backward` pass. The forward and backward passes are define according to the function of each layer as explained in the following sections.
 
 ### Sigmoid
 - `forward`: given an input `X` of any shape, calculate the `Sigmoid` function for it and cache the input. Afterwards, return the `output` and `cache`.
@@ -54,20 +54,34 @@ Using the chain rule the model could be split into layers by using a `forward` a
 - `forward`: given `x`, `w`, `b`, calculate the affine output and cache inputs. Return `output` and `cache`.
 - `backward`: given `upstream gradient dout` and `cache`, calculate and return `dx`, `dw`, `db`.
 ### N-Layer Classification Network
-- `forward`: given input data `X` containing `N` minibatches, calculate `affine forward`, `activation forward`. Return predicted value.
+- `forward`: given input data `X` containing `N` minibatches, calculate `affine forward`, `activation forward`. Return predicted value. Notice that last layer has only `affine forward` because the `activation forward` is included in the `cross-entropy/softmax`.
+- `backward`: given `gradient w.r.t network output dy`, calculate `activation backward`, `affine backward`. Afterwards, return the `gradients w.r.t. model weights`
 
 ### Cross-Entropy/Softmax Loss from Logits
-
-### Gradient Descent vs Stochastic Gradient Descent
-
+- `forward`: given `y_out logits`, `y_truth`, transform `logits` into a distribution using `softmax` while maintaining numerical stability. return `loss`.
+- `backward`: given `y_out`, `y_truth`, return `cross-entropy loss gradients w.r.t. y_out`
 ### SGD + Momentum
+- `update`: given `w`, `dw`, calculate new `v`, and updated wieghts `next_w`.
 
 ### Adam
+- `update`: given `w`, `dw`, `config`, `lr`, return `next_w`, `config`.
 
 ![Classifier Teaser](./exercise_05/images/sgd-sgdm-adam.png)
 ---
 
 ## References
-[1] https://docs.python.org/3/tutorial/
+[Python Tutorial](https://docs.python.org/3/tutorial/)
 
-[2] http://cs231n.github.io/python-numpy-tutorial/
+[NumPy Tutorial](http://cs231n.github.io/python-numpy-tutorial/)
+
+[Chain Rule TUM](https://bit.ly/tum-article)
+
+[Chain Rule Stanford](http://cs231n.stanford.edu/handouts/linear-backprop.pdf)
+
+[One-Hot Encoding](https://machinelearningmastery.com/why-one-hot-encode-data-in-machine-learning/)
+
+[Logits](https://datascience.stackexchange.com/questions/31041/what-does-logits-in-machine-learning-mean/31045)
+
+[Softmax](https://en.wikipedia.org/wiki/Softmax_function)
+
+[Adam](https://ruder.io/optimizing-gradient-descent/)
