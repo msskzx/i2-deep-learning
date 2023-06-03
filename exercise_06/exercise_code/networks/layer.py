@@ -121,9 +121,8 @@ class LeakyRelu:
         # TODO:                                                                #
         # Implement the forward pass of LeakyRelu activation function          #
         ########################################################################
-
-        pass
-
+        outputs = np.maximum(self.slope * x, x)
+        cache = x
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
@@ -138,9 +137,13 @@ class LeakyRelu:
         # TODO:                                                                #
         # Implement the backward pass of LeakyRelu activation function         #
         ########################################################################
-
-        pass
-
+        x = cache
+        # x >= derivative is 1
+        dx = np.ones_like(x)
+        # x < 0 derivative is slope
+        dx[x < 0] = self.slope
+        # chain rule
+        dx = dx * dout
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
@@ -164,9 +167,8 @@ class Tanh:
         # TODO:                                                                #
         # Implement the forward pass of Tanh activation function               #
         ########################################################################
-
-        pass
-
+        outputs = (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
+        cache = outputs
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
@@ -181,8 +183,8 @@ class Tanh:
         # TODO:                                                                #
         # Implement the backward pass of Tanh activation function              #
         ########################################################################
-
-        pass
+        dz = 1 - cache ** 2
+        dx = dout * dz
 
         ########################################################################
         #                           END OF YOUR CODE                           #
