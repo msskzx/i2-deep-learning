@@ -26,7 +26,17 @@ class MyPytorchModel(nn.Module):
         ########################################################################
 
 
-        pass
+        self.model = nn.Sequential(
+            nn.Linear(self.hparams['input_size'], self.hparams['hidden_size']),
+            nn.BatchNorm1d(self.hparams['hidden_size']),
+            nn.ReLU(),
+            nn.Dropout(p=self.hparams['dropout']),
+            nn.Linear(self.hparams['hidden_size'], self.hparams['hidden_size']//2),
+            nn.BatchNorm1d(self.hparams['hidden_size']//2),
+            nn.ReLU(),
+            nn.Dropout(p=self.hparams['dropout']),
+            nn.Linear(self.hparams['hidden_size']//2, self.hparams['num_classes']),
+        )
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -92,7 +102,7 @@ class MyPytorchModel(nn.Module):
         ########################################################################
 
 
-        pass
+        optim = torch.optim.Adam(self.model.parameters(), self.hparams["learning_rate"])
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -144,7 +154,7 @@ class CIFAR10DataModule(nn.Module):
         # If you want, you can also perform data augmentation!                 #
         ########################################################################
 
-        pass
+        my_transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean, std)])
 
         ########################################################################
         #                           END OF YOUR CODE                           #
