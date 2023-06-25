@@ -32,7 +32,7 @@ class FacialKeypointsDataset(BaseDataset):
     def _get_keypoints(idx, key_pts_frame, shape=(15, 2)):
         keypoint_cols = list(key_pts_frame.columns)[:-1]
         key_pts = key_pts_frame.iloc[idx][keypoint_cols].values.reshape(shape)
-        key_pts = (key_pts.astype(np.float) - 48.0) / 48.0
+        key_pts = (key_pts.astype(float) - 48.0) / 48.0
         return torch.from_numpy(key_pts).float()
 
     def __len__(self):
