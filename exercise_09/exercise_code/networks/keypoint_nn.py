@@ -13,7 +13,7 @@ class KeypointModel(nn.Module):
             
         """
         super().__init__()
-        self.hparams = hparams
+        self.hparams = hparams      
         
         ########################################################################
         # TODO: Define all the layers of your CNN, the only requirements are:  #
@@ -32,9 +32,41 @@ class KeypointModel(nn.Module):
         # You're going probably try different architecutres, and that will     #
         # allow you to be quick and flexible.                                  #
         ########################################################################
-        
 
-        pass
+        def conv_group(input_channels, output_channels, dropout):
+            conv = nn.Conv2d(input_channels, output_channels, kernel_size=self.hparams['kernel_size'],
+                      stride=self.hparams['stride'], padding=self.hparams['padding'])
+            nn.init.kaiming_normal_(conv.weight, nonlinearity='relu')
+
+            return nn.Sequential(
+                conv,
+                nn.ReLU(),
+                nn.MaxPool2d(kernel_size=self.hparams['maxpool_kernel_size'], stride=self.hparams['maxpool_stride']),
+                nn.Dropout(p=dropout)
+            )
+        
+        num_conv_layers = 4
+        layers = []
+        input_channels = self.hparams['in_channels']
+        output_channels = self.hparams['out_channels']
+        final_image_size = self.hparams['input_size']
+
+        for i in range(num_conv_layers):
+            layers.append(conv_group(input_channels, output_channels, self.hparams['dropout'] + (i * 0.1)))
+            input_channels = output_channels
+            output_channels *= 2
+            # calculate final image size
+            final_image_size = int((final_image_size - self.hparams['kernel_size'] + 2 * self.hparams['padding']) / self.hparams['stride']) + 1
+            final_image_size = int((final_image_size - self.hparams['maxpool_kernel_size']) / self.hparams['maxpool_stride']) + 1
+
+        self.features = nn.Sequential(*layers)
+
+        # fully connected layers
+        self.fc1 = nn.Sequential(nn.Linear(self.hparams['out_channels'] * 8 * final_image_size * final_image_size, self.hparams['out_channels'] * 8), nn.ReLU())
+        nn.init.kaiming_normal_(self.fc1[0].weight, nonlinearity='relu')
+        
+        self.fc2 = nn.Sequential(nn.Linear(self.hparams['out_channels'] * 8, self.hparams['num_keypoints']))
+        nn.init.xavier_normal_(self.fc2[0].weight)
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -52,15 +84,19 @@ class KeypointModel(nn.Module):
         # NOTE: what is the required output size?                              #
         ########################################################################
 
-
-        pass
+        # extract features
+        x = self.features(x)
+        # flatten
+        x = x.view(x.size(0), -1)
+        # fully connected layer
+        x = self.fc1(x)
+        x = self.fc2(x)
 
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
         return x
-
-
+    
 class DummyKeypointModel(nn.Module):
     """Dummy model always predicting the keypoints of the first train sample"""
     def __init__(self):
