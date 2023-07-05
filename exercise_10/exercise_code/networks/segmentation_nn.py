@@ -1,6 +1,8 @@
 """SegmentationNN"""
 import torch
 import torch.nn as nn
+import torchvision
+from torchvision.models import alexnet
 
 class ConvLayer(nn.Module):
 
@@ -26,8 +28,16 @@ class SegmentationNN(nn.Module):
         #######################################################################
         #                             YOUR CODE                               #
         #######################################################################
-
-        pass 
+        self.features = alexnet(pretrained=True).features
+        self.classifier = nn.Sequential(
+            nn.Dropout(p=self.hp['dropout']),
+            nn.Conv2d(in_channels=256, out_channels=4096, kernel_size=1, padding=0),
+            nn.ReLU(),
+            nn.Dropout(p=self.hp['dropout']),
+            nn.Conv2d(in_channels=4096, out_channels=256, kernel_size=1, padding=0),
+            nn.Upsample(scale_factor=40),
+            nn.Conv2d(in_channels=256, out_channels=num_classes, kernel_size=3, padding=1),
+        )
         #######################################################################
         #                           END OF YOUR CODE                          #
         #######################################################################
@@ -44,7 +54,8 @@ class SegmentationNN(nn.Module):
         #                             YOUR CODE                               #
         #######################################################################
         
-        pass
+        x = self.features(x)
+        x = self.classifier(x)
     
         #######################################################################
         #                           END OF YOUR CODE                          #
