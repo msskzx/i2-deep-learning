@@ -8,6 +8,7 @@
 - Image Classification on CIFAR-10 Using Neural Network
 - Handwritten Digits Classification on MNIST Using Autoencoder
 - Facial Keypoint Detection Using Convolutional Neural Network
+- Semantic Segmentation using Convolutional Neural Network
 
 ## Dataset and Dataloader Classes
 ---
