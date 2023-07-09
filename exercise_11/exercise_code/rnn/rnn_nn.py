@@ -100,8 +100,8 @@ class LSTM(nn.Module):
         # Initialise h and c as 0 if these values are not given.                #
         ########################################################################
 
-
-        pass
+        self.W_hh = nn.Linear(self.hidden_size, self.hidden_size, bias=True)
+        self.W_xh = nn.Linear(self.input_size, self.hidden_size, bias=True)
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -140,8 +140,7 @@ class LSTM(nn.Module):
         #  TODO: Perform the forward pass                                      #
         ########################################################################
 
-
-        pass
+        
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -182,8 +181,7 @@ class Embedding(nn.Module):
         # N(0, 1) and has a shape of (num_embeddings, embedding_dim).          #
         ########################################################################
 
-
-        pass
+        self.weight = nn.Parameter(torch.randn(num_embeddings, embedding_dim))
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -211,8 +209,7 @@ class Embedding(nn.Module):
         # hint: It is very short                                               #
         ########################################################################
 
-
-        pass
+        embeddings = weight[inputs]
 
         ########################################################################
         #                           END OF YOUR CODE                           #

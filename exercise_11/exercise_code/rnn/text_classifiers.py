@@ -35,8 +35,9 @@ class RNNClassifier(nn.Module):
         # and an output layer                                                  #
         ########################################################################
         
-
-        pass
+        self.embedding = Embedding(num_embeddings, embedding_dim, padding_idx=0)
+        self.rnn = (nn.LSTM if use_lstm else nn.RNN)(embedding_dim, hidden_size)
+        self.output = nn.Linear(hidden_size, 1)
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -61,8 +62,15 @@ class RNNClassifier(nn.Module):
         # pack_padded_sequence should be applied to the embedding outputs      #
         ########################################################################
 
-        pass
+        embeddings = self.embedding(sequence)
+        if lengths is not None:
+            embeddings = pack_padded_sequence(embeddings, lengths)
 
+        h_seq, h = self.rnn(embeddings)
+        if isinstance(h, tuple):
+            h = h[0]
+
+        output = self.output(h.squeeze(0)).sigmoid().view(-1)
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
