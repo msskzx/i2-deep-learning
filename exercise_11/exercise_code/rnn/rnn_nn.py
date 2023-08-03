@@ -177,7 +177,7 @@ class Embedding(nn.Module):
 
         self.weight = None
         ########################################################################
-        # TODO: Set self.weight to a parameter intialized with standard normal #
+        # DONE: Set self.weight to a parameter intialized with standard normal #
         # N(0, 1) and has a shape of (num_embeddings, embedding_dim).          #
         ########################################################################
 
@@ -205,7 +205,7 @@ class Embedding(nn.Module):
         embeddings = None
 
         ########################################################################
-        # TODO: Select the indices in the inputs from the weight tensor        #
+        # DONE: Select the indices in the inputs from the weight tensor        #
         # hint: It is very short                                               #
         ########################################################################
 
