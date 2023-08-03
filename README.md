@@ -36,18 +36,40 @@ For this part, the target is to convert text into a sequence of integers. The fo
 
 In order to express the semantic relations between words, we use an embedding layer will learn the semantic relations between words as the model is trained. Pre-trained embedding vectors such as [word2vec](https://arxiv.org/abs/1301.3781) or [GLoVe](https://nlp.stanford.edu/projects/glove/) could be used as well.
 
-<img src='https://developers.google.com/machine-learning/crash-course/images/linear-relationships.svg' width=80% height=80%/>
+<img src='https://developers.google.com/machine-learning/crash-course/images/linear-relationships.svg'/>
 
 ### Recurrent Neural Network
 
 Create a network that applies an embedding layer to input, followed by a RNN layer, and finally a linear layer to obtain the final output.
 
 <p class="aligncenter">
-    <img src="images/LSTM.png" alt="centered image" />
+    <img src="exercise_11/images/LSTM.png" alt="centered image" />
 </p>
 
 
+## Semantic Segmentation Using Convolutional Neural Network
+
+Segmentation of images in MSRC-v2 Segmentation Dataset using `convolutional neural network`. The goal is to classify each pixel in the image into one of the 23 classes.
+
+<img src="https://camo.githubusercontent.com/d10b897e15344334e449104a824aff6c29125dc2/687474703a2f2f63616c76696e2e696e662e65642e61632e756b2f77702d636f6e74656e742f75706c6f6164732f646174612f636f636f7374756666646174617365742f636f636f73747566662d6578616d706c65732e706e67">
+
+### Training Pipeline
+
+- initialize train_loader
+- hyperparameters selection
+- initialize model
+- for each epoche, perform the following steps on each batch:
+    - forward pass
+    - calculate loss
+    - backward pass
+    - optimizer step
+    - track loss and accuracy
+
 ## Facial Keypoint Detection Using Convolutional Neural Network
+
+Facial keypoint detection using `convolutional neural network`. The goal is to predict facial landmarks positions.
+
+<img src='exercise_09/images/key_pts_example.png'/>
 
 ## Handwritten Digits Classification on MNIST Using Autoencoder
 
@@ -59,37 +81,6 @@ MNIST dataset contains 60,000 images of handwritten digits. The first task is to
 
 - The encoder uses linear layers that map to latent space.
 - The classifier is concatenated to the encoder, where it takes latent space input and classifies into digits classes. The classifier uses a block of fully connected layers.
-
-### Training and validation
-
-Achieved by performing forward pass, backward pass, then an update of weights.
-
-## House Prices Classification using Logistic Regression
-
-Categorizing houses into ```low-priced``` or ```expensive``` using simple logistic regression model. The data that we will use here is the HousingPrice dataset. Feeding some features in our classifier, the output should then be a score that determines in which category the considered house is.
-![Classifier Teaser](./exercise_04/images/classifierTeaser.png)
-
-### Binary Cross Entropy Loss
-
-- forward pass: returns BCE loss
-- backward pass: returns the gradient of the input to the loss function w.r.t to predicted y.
-
-### Back-propagation
-
-- sigmoid: activation function
-- forward pass: returns predicted output, compute forward pass for each layer, save in cache for backward pass
-- backward pass: returns the gradient of the weight matrix w.r.t. the upstream gradient
-
-### Optimizer and Gradient Descent
-
-- step: A vanilla gradient descent step. returns updated weight after one step
-
-### Solver
-
-- step: performs a forward pass, calculates the loss, backward pass, tells the optimizer to update the weights by 1 step
-
-![Classifier Teaser](./exercise_04/images/train-val-loss.png)
-![Classifier Teaser](./exercise_04/images/train-prediction.png)
 
 ## Image Classification on CIFAR-10 Using Neural Network
 
@@ -131,6 +122,34 @@ Using the chain rule, the model could be split into layers by using a `forward` 
 - `update`: given `w`, `dw`, `config`, `lr`, return `next_w`, `config`.
 
 ![Classifier Teaser](./exercise_05/images/sgd-sgdm-adam.png)
+
+
+## House Prices Classification using Logistic Regression
+
+Categorizing houses into ```low-priced``` or ```expensive``` using simple logistic regression model. The data that we will use here is the HousingPrice dataset. Feeding some features in our classifier, the output should then be a score that determines in which category the considered house is.
+![Classifier Teaser](./exercise_04/images/classifierTeaser.png)
+
+### Binary Cross Entropy Loss
+
+- forward pass: returns BCE loss
+- backward pass: returns the gradient of the input to the loss function w.r.t to predicted y.
+
+### Back-propagation
+
+- sigmoid: activation function
+- forward pass: returns predicted output, compute forward pass for each layer, save in cache for backward pass
+- backward pass: returns the gradient of the weight matrix w.r.t. the upstream gradient
+
+### Optimizer and Gradient Descent
+
+- step: A vanilla gradient descent step. returns updated weight after one step
+
+### Solver
+
+- step: performs a forward pass, calculates the loss, backward pass, tells the optimizer to update the weights by 1 step
+
+![Classifier Teaser](./exercise_04/images/train-val-loss.png)
+![Classifier Teaser](./exercise_04/images/train-prediction.png)
 
 ## Dataset and Dataloader Classes
 
